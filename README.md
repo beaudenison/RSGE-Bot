@@ -32,8 +32,14 @@ The installer will:
 
 1. Prompt for your Discord bot token and client ID
 2. Create `.env`
-3. Build and start the container with Docker Compose
+3. Build and start both bot + web interface with Docker Compose
 4. Print invite/permission instructions for your server
+
+After install, open the web interface at:
+
+```text
+http://localhost:3000
+```
 
 ## Linux CLI Install (Download + Container Deploy)
 
@@ -96,6 +102,7 @@ Create `.env` (or let `scripts/install.sh` create it):
 - `DISCORD_CLIENT_ID` (required): Discord application ID
 - `DISCORD_GUILD_ID` (optional): Guild ID for immediate slash command registration
 - `RS_USER_AGENT` (optional): User-Agent header for API requests
+- `WEB_PORT` (optional): Web interface port (default `3000`)
 
 Reference template: `.env.example`
 
@@ -119,6 +126,7 @@ Reference template: `.env.example`
 	- `DISCORD_CLIENT_ID`: Application ID
 	- `DISCORD_GUILD_ID`: Optional, for faster guild-scoped command registration
 	- `RS_USER_AGENT`: Optional custom user-agent for API requests
+	- `WEB_PORT`: Optional web interface port (default `3000`)
 
 ## Run
 
@@ -174,6 +182,12 @@ docker compose up -d --build
 docker compose logs -f
 ```
 
+Web interface URL:
+
+```text
+http://localhost:${WEB_PORT:-3000}
+```
+
 Stop:
 
 ```bash
@@ -208,6 +222,7 @@ https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=3072&i
 ## Project Structure
 
 - `src/index.ts` - bot bootstrap and slash-command registration
+- `src/web-server.ts` - web API + clean search interface
 - `src/commands/search-item.ts` - `/item` command handler
 - `src/services/ge-api.ts` - API client for ItemDB + realtime prices
 - `src/services/item-search.ts` - matching/ranking logic for item queries

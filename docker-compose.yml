@@ -8,3 +8,15 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+
+  rsge-web:
+    image: rsge-bot:latest
+    depends_on:
+      - rsge-bot
+    container_name: rsge-web
+    command: ["node", "dist/web-server.js"]
+    env_file:
+      - .env
+    ports:
+      - "${WEB_PORT:-3000}:${WEB_PORT:-3000}"
+    restart: unless-stopped
