@@ -1,0 +1,10 @@
+services:
+  rsge-bot:
+    image: rsge-bot:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rsge-bot
+    env_file:
+      - .env
+    restart: unless-stopped
